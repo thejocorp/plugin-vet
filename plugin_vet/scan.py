@@ -155,22 +155,22 @@ def scan(path) -> ScanResult:
         if PROGRAM_FILE.search(s) and not PROGRAM_OK.search(s) and not SAMPLE_DIR.search(s):
             findings.append(Finding("program-file", f"a compiled or archived file is committed: {s}", s))
 
-        if SERVICE.search(s):
+        if SERVICE.search(s) and not SAMPLE_DIR.search(s):
             findings.append(Finding("background-service", f"sets up a background service: {s}", s))
 
         if SECRET_FILE_NAME.search(s) and not SAMPLE_DIR.search(s):
             findings.append(Finding("committed-secret", f"a credential file is committed: {s}", s))
 
-        if rel.name.lower() == "skill.md":
+        if rel.name.lower() == "skill.md" and not SAMPLE_DIR.search(s):
             skill_dirs.append(str(rel.parent))
 
-        if rel.name in ("hooks.json", "plugin.json", "settings.json") or s.endswith(".claude/settings.json"):
+        if (rel.name in ("hooks.json", "plugin.json", "settings.json") or s.endswith(".claude/settings.json")) and not SAMPLE_DIR.search(s):
             text = _read(p)
             for ev in EVERY_CALL_HOOKS:
                 if f'"{ev}"' in text:
                     findings.append(Finding("every-call-hook", f"registers a {ev} hook (runs on every tool call): {s}", s))
 
-        if rel.name == ".mcp.json" or (rel.name in ("plugin.json", "config.json") and '"mcpServers"' in _read(p, 2000)):
+        if (rel.name == ".mcp.json" or (rel.name in ("plugin.json", "config.json") and '"mcpServers"' in _read(p, 2000))) and not SAMPLE_DIR.search(s):
             facts["mcp_configs"].append(s)
             for u in _unpinned_servers(_read(p)):
                 findings.append(Finding("unpinned-fetch", f"starts an MCP server at its newest version, unpinned: {u}", s))
