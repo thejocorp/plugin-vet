@@ -1,0 +1,3 @@
+{
+  "mcpServers": {"thing": {"command": "npx", "args": ["-y", "some-mcp@latest", "--serve"]}}
+}

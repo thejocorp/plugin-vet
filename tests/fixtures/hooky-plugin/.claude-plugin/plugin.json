@@ -1,0 +1,4 @@
+{
+  "name": "hooky",
+  "hooks": {"PreToolUse": [{"matcher": "Bash", "hooks": []}]}
+}
