@@ -1,6 +1,14 @@
 # plugin-vet
 
-Static safety checks for the plugins, skills and MCP servers you install into a coding agent.
+**Look before you install.** Static safety checks for the plugins, skills and MCP servers you add
+to a coding agent (Claude Code, Codex, Cursor, any MCP client).
+
+[![tests](https://github.com/thejocorp/plugin-vet/actions/workflows/ci.yml/badge.svg)](https://github.com/thejocorp/plugin-vet/actions/workflows/ci.yml)
+![python](https://img.shields.io/badge/python-3.9%2B-3776ab)
+![dependencies](https://img.shields.io/badge/dependencies-none-success)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+![plugin-vet finding four problems in a plugin, a clean skill, and a CI gate](docs/demo.svg)
 
 An agent add-on runs with your agent's reach: your shell, your files, your tokens. Most are
 fine. Some register a hook on every tool call, phone home with telemetry, pull their newest
@@ -53,9 +61,9 @@ A finding is a thing to look at, not a verdict. Clear output and a clean report 
 ## Install
 
 ```sh
-pipx install plugin-vet       # recommended
+pipx install git+https://github.com/thejocorp/plugin-vet     # recommended
 # or
-pip install plugin-vet
+pip install git+https://github.com/thejocorp/plugin-vet
 ```
 
 Pure Python standard library, no dependencies. Python 3.9+.
@@ -88,7 +96,7 @@ plugin-vet ./x --policy team.json --fail-on medium
 ### In CI
 
 ```yaml
-- run: pipx install plugin-vet
+- run: pipx install git+https://github.com/thejocorp/plugin-vet
 - run: plugin-vet . --fail-on high
 ```
 
@@ -112,6 +120,15 @@ Python in [`plugin_vet/scan.py`](plugin_vet/scan.py).
 
 Issues and pull requests welcome. New rules should look for one concrete, checkable thing and
 come with a tiny fixture under `tests/fixtures/`. Run the suite with `pytest`.
+
+
+## Part of a small self-hosted security kit
+
+| | |
+|---|---|
+| [self-hosted-password-manager](https://github.com/thejocorp/self-hosted-password-manager) | run your own Vaultwarden with the Bitwarden apps, safely |
+| [pw-manager-auto-rotate](https://github.com/thejocorp/pw-manager-auto-rotate) | rotate the secrets it holds on every server |
+| **plugin-vet** | check AI-agent plugins and MCP servers before they get near those secrets |
 
 ## License
 
